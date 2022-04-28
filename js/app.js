@@ -1,9 +1,9 @@
 'use strict'
 
 import { openModal, closeModal } from './modal.js'
-import { readClients, createClient, deleteClient } from './clients.js'
+import { readClients, createClient, deleteClient, uptadeClient } from './clients.js'
 
-const createRow = (client) => {
+const createRow = (client, codigo) => {
     const row = document.createElement('tr')
     row.innerHTML = `
         <td>${client.nome}</td>
@@ -11,8 +11,8 @@ const createRow = (client) => {
         <td>${client.celular}</td>
         <td>${client.cidade}</td>
         <td>
-            <button type="button" class="button green" id="editar"-${client.id}>editar</button>
-            <button type="button" class="button red" id="excluir"-${client.id}>excluir</button>
+            <button type="button" class="button green" id="editar-${codigo}">editar</button>
+            <button type="button" class="button red" id="excluir-${codigo}">excluir</button>
         </td>
     `
     return row
@@ -57,14 +57,14 @@ const saveClient = async() => {
 const actionClient = async (event) => {
     
     if(event.target.type == 'button'){
-
         const [action, codigo] = event.target.id.split('-')
 
         if (action == 'editar'){
-            // Funçõa para editar
-        } else if (action == 'excluir'){
+            await uptadeClient(codigo)
+            openModal()
+
+        } else if (action == 'excluir') {
             await deleteClient(codigo)
-            
             uptadeTable()
         }
     }
