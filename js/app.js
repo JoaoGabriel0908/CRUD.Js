@@ -44,14 +44,21 @@ const saveClient = async() => {
         "celular":  document.getElementById('celular').value,
         "cidade":   document.getElementById('cidade').value
     }
-    // Enviar o Json para o servidor API
-    await createClient(client)
 
-    // Fechar a Modal
-    closeModal()
-
-    // Atualizar a tabela
-    uptadeTable()
+    const codigo = document.getElementById('nome').dataset.codigo
+    if(codigo == 'new'){
+        // Enviar o Json para o servidor API
+        await createClient(client)
+        // Fechar a Modal
+        closeModal()
+        // Atualizar a tabela
+        uptadeTable()
+    } else {
+        uptadeClient(client, codigo)
+        uptadeTable()
+        closeModal()
+    }
+    
 }
 
 const actionClient = async (event) => {

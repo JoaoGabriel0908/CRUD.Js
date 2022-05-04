@@ -1,5 +1,7 @@
 'use strict'
 
+// João
+
 // Consumindo a API do CLiente
 
 const url = 'https://testeleonid.herokuapp.com/clientes'
@@ -33,17 +35,20 @@ const deleteClient = async(codigo) => {
     console.log(response.ok)
 }
 
-const preencherCampos = (client) => {
+const preencherCampos = async(client) => {
     document.getElementById('nome').value = client.nome
     document.getElementById('email').value = client.email
     document.getElementById('celular').value = client.celular
     document.getElementById('cidade').value = client.cidade
-}
+
+    }
 
 const uptadeClient = async(codigo) => {
-    const client = await readClients()[codigo]
-    console.log(client)
-    preencherCampos(client)
+    const client = await readClients(codigo)
+    client.codigo = codigo
+    preencherCampos(client[codigo])
+    console.log(client.codigo)
+    
     // const options = {
     //     'method': 'PUT',
     //     'body': JSON.stringify(codigo),
