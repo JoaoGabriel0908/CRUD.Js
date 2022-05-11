@@ -3,6 +3,7 @@
 // Consumindo a API do CLiente
 
 const url = 'https://testeleonid.herokuapp.com/clientes'
+// const url = 'http://localhost/joao/backend-php/clientes'
 
 // Listando Cliente
 const readClients = async(id='') => {

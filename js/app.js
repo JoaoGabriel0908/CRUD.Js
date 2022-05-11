@@ -36,6 +36,7 @@ const fillForm = (client) => {
     document.getElementById('celular').value = client.celular
     document.getElementById('cidade').value = client.cidade
     document.getElementById('nome').dataset.id = client.id
+    document.getElementById('modal-image').src = client.foto
 }
 
 globalThis.editClient = async (id) => {
@@ -57,15 +58,18 @@ const isEdit = () => document.getElementById('nome').hasAttribute('data-id')
 
 // Salvando umm Cliente quando um usuário cria um
 const saveClient = async () => {
+    const form = document.getElementById('modal-form')
     // Criar um Json com as informações do cliente
     const client = {
         "id": "",
         "nome": document.getElementById('nome').value,
         "email": document.getElementById('email').value,
         "celular": document.getElementById('celular').value,
-        "cidade": document.getElementById('cidade').value
+        "cidade": document.getElementById('cidade').value,
+        "foto": document.getElementById('modal-image').src
     }
 
+    if(form.reportValidity()){
     if (isEdit()) {
         client.id = document.getElementById('nome').dataset.id
         await uptadeClient(client)
@@ -77,6 +81,7 @@ const saveClient = async () => {
         closeModal()
         // Atualizar a tabela
         uptadeTable()
+}
 }
 // const actionClient = async (event) => {
 
@@ -94,10 +99,25 @@ const saveClient = async () => {
 //     }
 // }
 
+const maskCelular = ({target}) => {
+    let text = target.value
+
+    // Não deixa o usuário colocar letras
+    text = text.replace(/[^0-9]/g,'')
+
+    text = text.replace(/(.{2})(.{5})(.{4})/,'($1) $2-$3')
+
+    // Faz com que o javascript adiciona um traço após 7 caracteres
+    text = text.replace(/(.{15})(.*)/, '$1')
+
+    target.value = text
+}
+
 // Carregando a página chamando a função
 uptadeTable()
 
 // Eventos
 document.getElementById('cadastrarCliente').addEventListener('click', openModal)
 document.getElementById('salvar').addEventListener('click', saveClient)
+document.getElementById('celular').addEventListener('keyup', maskCelular)
 // document.getElementById('clients-container').addEventListener('click', actionClient)
